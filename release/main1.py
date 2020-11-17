@@ -1,15 +1,16 @@
 import sys
 import sqlite3
+from UI import addEditCoffeeForm
 
-from PyQt5 import uic
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem
-from PyQt5.QtGui import QPainter, QColor
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QTableWidgetItem
 
 
-class MyWidget(QMainWindow):
+class MyWidget(QtWidgets.QMainWindow, addEditCoffeeForm.Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        self.con = sqlite3.connect("coffee1.sqlite")
+        self.setupUi(self)
+        self.con = sqlite3.connect("../data/coffee1.sqlite")
         cur = self.con.cursor()
         result = cur.execute("""SELECT * FROM coffees""").fetchall()
         self.tableWidget.setRowCount(len(result))
@@ -28,8 +29,12 @@ class MyWidget(QMainWindow):
         cur = self.con.cursor()
         self.con.commit()
 
+def main():
+    app = QtWidgets.QApplication(sys.argv)
+    window = MyWidget()
+    window.show()
+    app.exec_()
+
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = MyWidget()
-    ex.show()
-    sys.exit(app.exec_())
+    main()
+
