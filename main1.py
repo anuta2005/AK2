@@ -9,7 +9,6 @@ from PyQt5.QtGui import QPainter, QColor
 class MyWidget(QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('addEditCoffeeForm.ui', self)
         self.con = sqlite3.connect("coffee1.sqlite")
         cur = self.con.cursor()
         result = cur.execute("""SELECT * FROM coffees""").fetchall()
